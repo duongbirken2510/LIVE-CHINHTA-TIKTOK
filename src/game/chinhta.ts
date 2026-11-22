@@ -617,8 +617,8 @@ export class ChinhTaEngine {
     const elapsed = now - this.phaseStartedAt;
     if (elapsed < this.phaseDurationMs) return {};
 
-    // Cơ chế Voice-Sync Hold: Đợi MC đọc dứt câu hoàn toàn rồi mới chuyển cảnh (kèm trần an toàn +8s để không bao giờ treo)
-    const maxHoldExtraMs = this.phase === 'playing' ? 4_500 : 8_000;
+    // Cơ chế Voice-Sync Hold: Đợi MC đọc dứt câu hoàn toàn rồi mới chuyển cảnh (kèm trần an toàn để không bao giờ treo)
+    const maxHoldExtraMs = this.phase === 'playing' ? 9_000 : 14_000;
     if (holdForVoice && elapsed < this.phaseDurationMs + maxHoldExtraMs) {
       return {};
     }

@@ -13,7 +13,10 @@ class Voice {
   private normal: Line[] = [];
   private priority: Line[] = [];
   private playing = false;
+  private fetchingActive = false;
+  private abortCtrl: AbortController | null = null;
   private current: HTMLAudioElement | null = null;
+  private currentBlobUrl: string | null = null;
   private currentBooster: { setVolume: (v: number) => void; disconnect: () => void } | null = null;
   private lastSpokeAt = Date.now();
   rate = 1;
@@ -80,10 +83,10 @@ class Voice {
   }
 
   private async runPrefetch() {
-    if (this.prefetching) return;
+    if (this.prefetching || this.fetchingActive) return;
     this.prefetching = true;
     try {
-      while (this.prefetchQueue.length > 0) {
+      while (this.prefetchQueue.length > 0 && !this.fetchingActive) {
         const t = this.prefetchQueue.shift()!;
         try {
           const r = await fetch(`/api/tts?prefetch=1&rate=${this.rate}&text=${encodeURIComponent(t)}`);
@@ -106,10 +109,17 @@ class Voice {
     this.normal = [];
     this.priority = [];
     try {
+      this.abortCtrl?.abort();
       this.currentBooster?.disconnect();
       this.current?.pause();
       if (this.current) this.current.src = '';
+      if (this.currentBlobUrl) {
+        URL.revokeObjectURL(this.currentBlobUrl);
+        this.currentBlobUrl = null;
+      }
     } catch {}
+    this.abortCtrl = null;
+    this.fetchingActive = false;
     this.currentBooster = null;
     this.current = null;
     this.playing = false;
@@ -117,7 +127,7 @@ class Voice {
   }
 
   get busy() {
-    return this.playing || this.normal.length + this.priority.length > 0;
+    return this.playing || this.fetchingActive || this.normal.length + this.priority.length > 0;
   }
 
   quietForMs(now = Date.now()) {
@@ -137,10 +147,27 @@ class Voice {
       return;
     }
     this.playing = true;
+    this.fetchingActive = true;
+    const ctrl = new AbortController();
+    this.abortCtrl = ctrl;
     this.onSpeakingChange?.(true); // Pre-duck nhạc nền 95% trước khi câu đầu tiên vang lên
+    let blobUrl: string | null = null;
     try {
-      const audio = new Audio(`/api/tts?rate=${this.rate}&text=${encodeURIComponent(line.text)}`);
-      audio.crossOrigin = 'anonymous';
+      // Tải trọn vẹn file âm thanh vào bộ nhớ Blob trước khi phát để:
+      // 1) Gửi HTTP request ngay lập tức (không bị prefetch tranh worker)
+      // 2) Triệt tiêu 100% lỗi hụt buffer giữa các vế câu làm ngắt tiếng nửa chừng
+      const r = await fetch(`/api/tts?rate=${this.rate}&text=${encodeURIComponent(line.text)}`, {
+        signal: ctrl.signal,
+      });
+      this.fetchingActive = false;
+      void this.runPrefetch();
+      if (!r.ok || ctrl.signal.aborted) return;
+      const blob = await r.blob();
+      if (ctrl.signal.aborted || blob.size === 0) return;
+
+      blobUrl = URL.createObjectURL(blob);
+      this.currentBlobUrl = blobUrl;
+      const audio = new Audio(blobUrl);
       const booster = this.boostProvider?.(audio, this.volume) ?? null;
       this.currentBooster = booster;
       audio.volume = booster ? (this.volume === 0 ? 0 : 1) : this.volume;
@@ -153,9 +180,19 @@ class Voice {
           resolve();
         });
       });
+    } catch {
+      // Request bị hủy bởi stop() hoặc lỗi mạng
     } finally {
+      this.fetchingActive = false;
+      if (this.abortCtrl === ctrl) this.abortCtrl = null;
       this.currentBooster?.disconnect();
       this.currentBooster = null;
+      if (blobUrl) {
+        try {
+          URL.revokeObjectURL(blobUrl);
+        } catch {}
+        if (this.currentBlobUrl === blobUrl) this.currentBlobUrl = null;
+      }
       line.done?.();
       this.current = null;
       this.playing = false;
@@ -164,6 +201,7 @@ class Voice {
         void this.next();
       } else {
         this.onSpeakingChange?.(false);
+        void this.runPrefetch();
       }
     }
   }

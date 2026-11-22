@@ -26,6 +26,36 @@ const DEFAULT_AUDIO: AudioConfig = {
 
 const REGION_LABEL = { B: 'Miền Bắc', T: 'Miền Trung', N: 'Miền Nam' } as const;
 
+/**
+ * Kho 16 lời khen đa dạng, giàu sắc thái văn chương cho sĩ tử mở hàng trả lời đúng đầu tiên
+ * (xoay vòng liên tục để không bao giờ lặp lại nhàm chán cụm "Quá nhanh!").
+ */
+const FIRST_SOLVE_PRAISES: Array<(name: string, choice: string | number, pts: number) => string> = [
+  (name, choice, pts) => `Xuất sắc! ${name} mở hàng chọn phương án ${choice}, ghi ${pts} điểm!`,
+  (name, choice, pts) => `Chuẩn xác tuyệt đối! ${name} dẫn đầu câu này với phương án ${choice}, cộng ${pts} điểm!`,
+  (name, choice, pts) => `Nhanh như chớp! ${name} chốt ngay phương án ${choice}, rinh ${pts} điểm đầu tiên!`,
+  (name, choice, pts) => `Mở hàng hồng phát! Chúc mừng ${name} chọn đúng phương án ${choice}, nhận ${pts} điểm!`,
+  (name, choice, pts) => `Kiến thức uyên bác! ${name} giải mã thành công phương án ${choice}, bỏ túi ${pts} điểm!`,
+  (name, choice, pts) => `Nhãn quan sắc bén! ${name} là người đầu tiên chọn đúng phương án ${choice}, cộng ${pts} điểm!`,
+  (name, choice, pts) => `Tuyệt vời! ${name} nổ phát súng đầu tiên ở phương án ${choice} với ${pts} điểm!`,
+  (name, choice, pts) => `Xứng danh kỳ tài chữ Việt! ${name} chốt chuẩn phương án ${choice}, ghi ngay ${pts} điểm!`,
+  (name, choice, pts) => `Đỉnh cao phản xạ! ${name} mở điểm câu này ở phương án ${choice}, nhận ${pts} điểm!`,
+  (name, choice, pts) => `Không lệch một ly! ${name} tiên phong chọn đúng phương án ${choice}, cộng ${pts} điểm!`,
+  (name, choice, pts) => `Quá bản lĩnh! ${name} dẫn đầu bảng câu này với phương án ${choice}, mang về ${pts} điểm!`,
+  (name, choice, pts) => `Tinh anh xuất lộ! ${name} chọn chính xác phương án ${choice}, ghi ${pts} điểm!`,
+  (name, choice, pts) => `Một pha chốt đáp án cực kỳ quyết đoán của ${name} ở phương án ${choice}, cộng ${pts} điểm!`,
+  (name, choice, pts) => `Trí tuệ hơn người! ${name} mở bát chuẩn chỉnh phương án ${choice}, nhận ${pts} điểm!`,
+  (name, choice, pts) => `Phong độ rực rỡ! ${name} chiếm ngôi đầu câu này với phương án ${choice}, ghi ${pts} điểm!`,
+  (name, choice, pts) => `Thật đáng nể! ${name} khai bút chuẩn xác ở phương án ${choice}, bỏ túi ${pts} điểm!`,
+];
+
+const STREAK_BONUS_PRAISES: Array<(name: string, pts: number) => string> = [
+  (name, pts) => `${name} lập chuỗi ba câu đúng liên tiếp, thưởng nóng ${pts} điểm!`,
+  (name, pts) => `Phong độ hủy diệt! ${name} thông cả ba câu liền, nhận tổng ${pts} điểm!`,
+  (name, pts) => `Tam liên thắng cho ${name}! Thưởng nóng chuỗi ba câu với ${pts} điểm!`,
+  (name, pts) => `Bách phát bách trúng! ${name} đúng liền ba câu, mang về ${pts} điểm!`,
+];
+
 const buildIdleLines = (channelName: string, choiceLabels: ['1', '2'] | ['A', 'B'] = ['1', '2']) => {
   const [lbl1, lbl2] = choiceLabels;
   return [
@@ -87,6 +117,8 @@ export function useGame() {
   const lastIdleAtRef = useRef(Date.now());
   const lastLockedWarnAtRef = useRef(0);
   const idleIdxRef = useRef(0);
+  const praiseIdxRef = useRef(0);
+  const streakPraiseIdxRef = useRef(0);
   const lastCountdownSecRef = useRef(-1);
   const lastBroadcastJsonRef = useRef('');
 
@@ -284,8 +316,9 @@ export function useGame() {
       const res = engineRef.current!.submitChat({ ...ev, nickname: safeNick });
       const spName = speakableName(safeNick);
       const curSnap = engineRef.current!.getSnapshot();
-      // Không chèn thêm thoại phụ khi đồng hồ chỉ còn <= 5 giây cuối để tránh vừa nói được nửa câu đã hết giờ mở đáp án
-      const canInsertSideSpeech = curSnap.phase === 'playing' && curSnap.secondsLeft >= 6;
+      // Chỉ chèn thoại phụ khi MC đã đọc xong câu đề bài chính (!voice.busy) và đồng hồ còn >= 7 giây
+      // để tránh xếp chồng hàng đợi khiến câu nói kéo dài quá thời gian câu hỏi rồi bị ngắt khi mở đáp án
+      const canInsertSideSpeech = curSnap.phase === 'playing' && curSnap.secondsLeft >= 7 && !voice.busy;
 
       if (res.kind === 'region' && res.region) {
         sfx.play('solve');
@@ -300,9 +333,13 @@ export function useGame() {
         sfx.play('solve');
         if (canInsertSideSpeech) {
           if (res.rankInStep === 1) {
-            voice.say(`Quá nhanh! ${spName} mở hàng chọn phương án ${res.choiceLabel || res.choice}, ghi ${res.points} điểm!`);
+            const buildPraise = FIRST_SOLVE_PRAISES[praiseIdxRef.current % FIRST_SOLVE_PRAISES.length];
+            praiseIdxRef.current += 1;
+            voice.say(buildPraise(spName, res.choiceLabel || res.choice || '1', res.points || 0));
           } else if (res.streakBonus) {
-            voice.say(`${spName} đạt chuỗi ba câu đúng liên tiếp, thưởng nóng ${res.points} điểm!`);
+            const buildStreak = STREAK_BONUS_PRAISES[streakPraiseIdxRef.current % STREAK_BONUS_PRAISES.length];
+            streakPraiseIdxRef.current += 1;
+            voice.say(buildStreak(spName, res.points || 0));
           }
         }
         syncSnapshot(true);

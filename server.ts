@@ -530,6 +530,26 @@ app.post('/api/bang-tuan', (req, res) => {
 
 // ---------- Giọng đọc (VieNeu AI v3 Turbo + Microsoft Edge Neural + Google TTS) ----------
 const escapeXml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/**
+ * Làm sạch văn bản trước khi đưa vào bộ tổng hợp giọng đọc tiếng Việt:
+ * - Loại bỏ chữ Hán tự trong ngoặc (VD: "(燦爛: «xán» là sáng sủa)" -> "(xán là sáng sủa)", "(婦)" -> "")
+ *   để bộ âm vị VieNeu / Edge TTS không bị ngắt câu giữa chừng khi gặp ký tự CJK.
+ * - Chuẩn hóa các ký hiệu « », ×2, 1/2, A/B thành từ đọc tự nhiên.
+ */
+function sanitizeTextForTts(raw: string): string {
+  return raw
+    .replace(/\[[^\]]*\]\s*/g, '')
+    .replace(/[\u3400-\u9FBF\uF900-\uFAFF]+/g, '')
+    .replace(/\(\s*[:;,-]?\s*\)/g, '')
+    .replace(/\(\s*[:;,-]+\s*/g, '(')
+    .replace(/[«»“”"]/g, ' ')
+    .replace(/×\s*2\b/gi, ' nhân đôi ')
+    .replace(/\b1\s*\/\s*2\b/g, '1 hoặc 2')
+    .replace(/\bA\s*\/\s*B\b/g, 'A hoặc B')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 function splitText(text: string, max = 190): string[] {
   const chunks: string[] = [];
   let rest = text.trim();
@@ -700,33 +720,36 @@ function startVieneuWorker() {
         broadcast('vieneu', getVieneuStatus());
         pumpVieneuQueue();
       } else if (frameType === 2 && currentJob?.id === reqId) {
-        if (!currentJob.res.headersSent) {
-          currentJob.res.setHeader('Content-Type', 'audio/wav');
-          currentJob.res.setHeader('Cache-Control', 'no-store');
-        }
         currentJob.parts.push(Buffer.from(payload));
-        if (!currentJob.res.writableEnded) currentJob.res.write(payload);
       } else if (frameType === 3 && currentJob?.id === reqId) {
         const job = currentJob;
         currentJob = null;
         clearTimeout(job.timer);
-        if (!job.res.writableEnded) job.res.end();
         if (job.parts.length > 0) {
-          vieneuCache.set(`${job.voice}|${job.text}`, Buffer.concat(job.parts));
-          if (vieneuCache.size > 120) vieneuCache.delete(vieneuCache.keys().next().value!);
+          const fullWav = Buffer.concat(job.parts);
+          // Ghi chính xác độ dài byte thực tế vào WAV Header (offset 4 và offset 40) thay cho 0xFFFFFFFF
+          // giúp trình duyệt phát trọn vẹn từ chữ đầu tới chữ cuối mà không bao giờ bị ngắt giữa các vế câu
+          if (fullWav.length >= 44) {
+            fullWav.writeUInt32LE(fullWav.length - 8, 4);
+            fullWav.writeUInt32LE(fullWav.length - 44, 40);
+          }
+          vieneuCache.set(`${job.voice}|${job.text}`, fullWav);
+          if (vieneuCache.size > 150) vieneuCache.delete(vieneuCache.keys().next().value!);
+          if (!job.res.writableEnded && !job.res.destroyed) {
+            job.res.setHeader('Content-Type', 'audio/wav');
+            job.res.setHeader('Cache-Control', 'public, max-age=86400');
+            job.res.send(fullWav);
+          }
+          job.resolve(true);
+        } else {
+          job.resolve(false);
         }
-        job.resolve(true);
         pumpVieneuQueue();
       } else if (frameType === 4 && currentJob?.id === reqId) {
         const job = currentJob;
         currentJob = null;
         clearTimeout(job.timer);
-        if (job.res.headersSent) {
-          if (!job.res.writableEnded) job.res.end();
-          job.resolve(true);
-        } else {
-          job.resolve(false);
-        }
+        job.resolve(false);
         pumpVieneuQueue();
       }
     }
@@ -811,13 +834,13 @@ app.get('/api/tts', async (req, res) => {
   try {
     const raw = String(req.query.text || '').trim().slice(0, 1500);
     if (!raw) return res.status(400).send('Thiếu text');
+    const text = sanitizeTextForTts(raw);
+    if (!text) return res.status(204).end();
     const rate = Math.min(1.5, Math.max(0.5, Number(req.query.rate) || 1));
     const isPrefetch = req.query.prefetch === '1';
     if (activeVieneuVoice && !activeVieneuVoice.startsWith('edge:') && activeVieneuVoice !== 'google:vi') {
-      if (await vieneuTts(raw, res, isPrefetch)) return;
+      if (await vieneuTts(text, res, isPrefetch)) return;
     }
-    const text = raw.replace(/\[[^\]]*\]\s*/g, '').trim();
-    if (!text) return res.status(204).end();
     const engineKey = activeVieneuVoice === 'google:vi' ? 'google' : activeEdgeVoice;
     const key = `${engineKey}|${rate}|${text}`;
     let audio = ttsCache.get(key);
