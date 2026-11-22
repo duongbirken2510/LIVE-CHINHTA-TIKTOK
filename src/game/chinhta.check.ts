@@ -202,11 +202,11 @@ const afterGiftSnap = engine.getSnapshot(now + 41_800);
 assert.equal(afterGiftSnap.leaderboard[0].score, scoreBeforeGift, 'Quà tặng tuyệt đối không cộng điểm gian lận');
 assert.equal(afterGiftSnap.giftBanner?.big, true);
 
-// 9. Kiểm thử đổi thời gian đoán 4 vòng (thoiGianVong) & Thời gian mở đáp án Vòng 4 (thoiGianMoDapAn)
-assert.ok(revealSnap.totalSeconds >= 7, `Thời gian mở đáp án Vòng 4 phải >= 7s (hiện tại: ${revealSnap.totalSeconds}s)`);
-engine.setRevealSeconds(11);
-assert.equal(engine.getRevealSeconds(), 11);
-assert.ok(engine.getSnapshot(now + 41_800).totalSeconds >= 11, 'Khi chỉnh thời gian mở đáp án lên 11s phải áp dụng ngay');
+// 9. Kiểm thử đổi thời gian đoán 4 vòng (thoiGianVong) & Thời gian mở đáp án (thoiGianMoDapAn mặc định 4s)
+assert.equal(revealSnap.totalSeconds, 4, `Thời gian mở đáp án Vòng 4 mặc định phải là 4s (hiện tại: ${revealSnap.totalSeconds}s)`);
+engine.setRevealSeconds(6);
+assert.equal(engine.getRevealSeconds(), 6);
+assert.equal(engine.getSnapshot(now + 41_800).totalSeconds, 6, 'Khi chỉnh thời gian mở đáp án lên 6s phải áp dụng ngay');
 
 engine.setRoundSeconds([12, 14, 15, 18]);
 assert.deepEqual(engine.getRoundSeconds(), [12, 14, 15, 18]);

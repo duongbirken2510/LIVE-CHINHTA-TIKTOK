@@ -210,23 +210,17 @@ export class ChinhTaEngine {
   }
 
   /**
-   * Thời gian Mở Đáp Án tối ưu theo từng vòng:
-   * - Vòng 1 & Vòng 2: Mở đáp án siêu tốc 4 giây (không đọc giải thích dài dòng)
-   * - Vòng 3 (Bắt lỗi câu): Mở đáp án 4.5 giây (chỉ báo từ in đậm Đúng hay Sai và từ sửa đúng)
-   * - Vòng 4 (Thuần Việt & Hán Việt ×2): Đọc giải thích ngắn gọn trong 1 câu (~6.5s - 8s)
+   * Thời gian Mở Đáp Án siêu tốc 4 giây đồng bộ cả 4 vòng (MC chỉ chốt đáp án, không đọc chiết tự dài dòng).
    */
-  private computeRevealDurationMs(speechText: string): number {
+  private computeRevealDurationMs(_speechText: string): number {
     const step = this.steps[this.stepIdx];
-    if (step && (step.kind === 'phu-am' || step.kind === 'dau-van')) {
-      return GAME.thoiGianMoDapAnVong123 * 1000;
-    }
     if (step && step.kind === 'bat-loi-cau') {
-      return 4_500;
+      return Math.max(4_500, this.revealSeconds * 1000);
     }
-    return this.computeSpeechDurationMs(speechText, this.revealSeconds, 4_000);
+    return this.revealSeconds * 1000;
   }
 
-  /** Trả về lời đọc Mở Đáp Án của câu hiện tại để hệ thống nạp trước (Prefetch) âm thanh AI từ lúc đang đếm ngược */
+  /** Trả về lời đọc Mở Đáp Án ngắn gọn (~3.5s) của câu hiện tại để hệ thống nạp trước (Prefetch) âm thanh AI */
   getCurrentRevealSpeech(): string {
     const step = this.steps[this.stepIdx];
     if (!step) return '';
@@ -234,11 +228,6 @@ export class ChinhTaEngine {
     const [lbl1, lbl2] = step.choiceLabels;
     const winLbl = step.correctChoice === 1 ? lbl1 : lbl2;
     const winningOptionText = step.correctChoice === 1 ? step.option1 : step.option2;
-
-    // Vòng 1 & Vòng 2: Chốt đáp án nhanh gọn 1 câu, không đọc giải nghĩa từ điển
-    if (step.kind === 'phu-am' || step.kind === 'dau-van') {
-      return `Hết giờ! Đáp án đúng là phương án ${winLbl}: «${winningOptionText}»!`;
-    }
 
     // Vòng 3 (Bắt lỗi trong câu): Chỉ báo từ in đậm viết Đúng hay Sai (và từ sửa đúng nếu Sai)
     if (step.kind === 'bat-loi-cau') {
@@ -248,12 +237,25 @@ export class ChinhTaEngine {
       return `Hết giờ! Đáp án là số 2: Viết SAI! Phải viết là «${q.optionCorrect}»!`;
     }
 
-    // Vòng 4 (Thuần Việt & Hán Việt ×2): Chỉ đọc 1 câu giải thích cốt lõi ngắn gọn
-    const afterBang = q.explanation.includes('!')
-      ? q.explanation.split('!').slice(1).join('!').trim()
-      : q.explanation.trim();
-    const shortSentence = afterBang.split(/\.\s+/)[0].replace(/\.+$/, '');
-    return `Hết giờ! Đáp án đúng là phương án ${winLbl}: «${winningOptionText}». ${shortSentence}.`;
+    // Vòng 4 Dạng 4A (Phân tích từ in đậm trong câu là Thuần Việt hay Hán Việt): Chốt gọn 1 câu
+    if (step.kind === 'han-viet' && q.fixedOptions && q.highlightWord) {
+      return `Hết giờ! Đáp án là phương án ${winLbl}: «${q.highlightWord}» là ${winningOptionText}!`;
+    }
+
+    // Vòng 1, Vòng 2 và Vòng 4 Dạng 4B (chọn 1 trong 2 từ): Chốt gọn 1 câu
+    return `Hết giờ! Đáp án đúng là phương án ${winLbl}: «${winningOptionText}»!`;
+  }
+
+  /** Tạo 1 dòng đối chiếu siêu ngắn (1 hàng) trên màn hình khi mở đáp án Vòng 4 (không chiết tự dài dòng) */
+  private buildShortRound4Line(q: ChinhTaQuestion): string {
+    if (q.fixedOptions && q.highlightWord) {
+      return `✓ Từ «${q.highlightWord}» trong câu là ${q.optionCorrect}!`;
+    }
+    const isFindingThuanViet = q.categoryTag.toLowerCase().includes('thuần việt');
+    if (isFindingThuanViet) {
+      return `✓ Đáp án: «${q.optionCorrect}» (Từ Thuần Việt)  ·  «${q.optionWrong}» (Từ Hán Việt)`;
+    }
+    return `✓ Đáp án: «${q.optionCorrect}» (Từ Hán Việt)  ·  «${q.optionWrong}» (Từ Thuần Việt)`;
   }
 
   private pickFresh<T extends { id: string }>(pool: T[], count: number): T[] {
@@ -804,7 +806,7 @@ export class ChinhTaEngine {
       explanation: !isRevealed
         ? undefined
         : step.kind === 'han-viet'
-          ? q.explanation
+          ? this.buildShortRound4Line(q)
           : step.kind === 'bat-loi-cau'
             ? step.correctChoice === 1
               ? `✓ Từ «${q.highlightWord}» trong câu đã viết ĐÚNG chính tả!`

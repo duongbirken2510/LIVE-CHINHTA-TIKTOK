@@ -840,27 +840,12 @@ function DualChoiceArena({
         })}
       </div>
 
-      {/* VÒNG 3: DÒNG CHỐT ĐÚNG/SAI NGẮN GỌN · VÒNG 4: HỘP PHÂN TÍCH THUẦN VIỆT & HÁN VIỆT (VÒNG 1 & 2 KHÔNG HIỆN GIẢI THÍCH) */}
-      {puzzle.explanation &&
-        (puzzle.roundCode === 'bat-loi-cau' ? (
-          <div className="mt-4 w-full rounded-2xl border-2 border-emerald-300 bg-emerald-950/90 px-6 py-3.5 text-center text-[27px] font-black text-emerald-200 shadow-xl">
-            {puzzle.explanation}
-          </div>
-        ) : (
-          <div className="mt-4 w-full rounded-2xl border-2 border-emerald-300 bg-gradient-to-r from-emerald-950/95 via-teal-950/95 to-emerald-950/95 px-6 py-4 shadow-2xl">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-[22px] font-black text-emerald-300 uppercase">
-                📖 PHÂN TÍCH NGUỒN GỐC TỪ THUẦN VIỆT & HÁN VIỆT
-              </span>
-              {puzzle.revealedCorrectWord && (
-                <span className="rounded-xl bg-emerald-400 px-4 py-1 text-[21px] font-black text-slate-950">
-                  ✓ Đáp án đúng: «{puzzle.revealedCorrectWord}»
-                </span>
-              )}
-            </div>
-            <div className="mt-1.5 text-[26px] font-bold leading-snug text-amber-100">{puzzle.explanation}</div>
-          </div>
-        ))}
+      {/* VÒNG 3 & VÒNG 4: CHỈ HIỆN 1 THANH NGANG 1 DÒNG CHỐT ĐÁP ÁN SIÊU NGẮN GỌN (VÒNG 1 & 2 KHÔNG HIỆN) */}
+      {puzzle.explanation && (
+        <div className="mt-4 w-full rounded-2xl border-2 border-emerald-300 bg-emerald-950/90 px-6 py-3.5 text-center text-[26px] font-black text-emerald-200 shadow-xl">
+          {puzzle.explanation}
+        </div>
+      )}
     </div>
   );
 }

@@ -119,7 +119,7 @@ const chuanHoaThoiGian = (raw?: unknown): [number, number, number, number] => {
 
 const chuanHoaThoiGianMoDapAn = (raw?: unknown): number => {
   const n = Math.round(Number(raw));
-  return Number.isFinite(n) ? Math.min(30, Math.max(4, n)) : 9;
+  return Number.isFinite(n) ? Math.min(30, Math.max(3, n)) : 4;
 };
 
 const caiDat = () => ({

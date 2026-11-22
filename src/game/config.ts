@@ -5,8 +5,8 @@ export const GAME = {
   chuoiMoi: 3, // Chọn đúng liền 3 câu: thưởng nóng +100 điểm
   chuoiThuong: 100,
   buTreObsMs: 5_000, // Miễn trừ 5 giây đầu câu bù độ trễ hình ảnh OBS để người xem trên điện thoại vẫn đạt 100% điểm tối đa
-  thoiGianMoDapAnVong123: 4, // Vòng 1, 2, 3 mở đáp án siêu tốc 4 giây (không đọc giải thích dài dòng)
-  thoiGianMoDapAnMacDinh: 7, // Vòng 4 mở đáp án & đọc giải thích ngắn gọn Thuần Việt / Hán Việt mặc định 7 giây
+  thoiGianMoDapAnVong123: 4, // Mở đáp án siêu tốc 4 giây đồng bộ cả 4 vòng
+  thoiGianMoDapAnMacDinh: 4, // Mặc định 4 giây mở đáp án chốt kết quả nhanh gọn
 
   vong: [
     {
@@ -59,22 +59,22 @@ export const GAME = {
 
   presets: [
     {
-      label: '⚡ Nhịp Nhanh (12·14·15·18s | Mở ĐA 4s/6s)',
+      label: '⚡ Nhịp Nhanh (12·14·15·18s | Mở ĐA 4s)',
       shortLabel: '⚡ Nhịp Nhanh',
       vals: [12, 14, 15, 18] as [number, number, number, number],
-      revealSec: 6,
+      revealSec: 4,
     },
     {
-      label: '🎯 Chuẩn Live TikTok (18·20·22·25s | Mở ĐA 4s/7s)',
+      label: '🎯 Chuẩn Live TikTok (18·20·22·25s | Mở ĐA 4s)',
       shortLabel: '🎯 Chuẩn Live TikTok',
       vals: [18, 20, 22, 25] as [number, number, number, number],
-      revealSec: 7,
+      revealSec: 4,
     },
     {
-      label: '☕ Thong Thả (25·28·30·35s | Mở ĐA 4s/9s)',
+      label: '☕ Thong Thả (25·28·30·35s | Mở ĐA 5s)',
       shortLabel: '☕ Thong Thả',
       vals: [25, 28, 30, 35] as [number, number, number, number],
-      revealSec: 9,
+      revealSec: 5,
     },
   ],
 
@@ -89,7 +89,7 @@ export const GAME = {
 
   chuanHoaThoiGianMoDapAn: (raw?: unknown): number => {
     const n = Math.round(Number(raw));
-    return Number.isFinite(n) ? Math.min(30, Math.max(4, n)) : 7;
+    return Number.isFinite(n) ? Math.min(30, Math.max(3, n)) : 4;
   },
 
   danhHieu: (hang: number) => {
