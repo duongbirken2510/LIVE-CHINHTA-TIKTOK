@@ -171,30 +171,42 @@ const hitR4 = engine.submitChat({ username: 'lan99', nickname: 'Lan Anh', commen
 assert.equal(hitR4.kind, 'correct');
 assert.ok((hitR4.points ?? 0) >= 300, 'Trả lời đúng đầu giờ Vòng 4 nhân đôi điểm phải đạt >= 300đ');
 
-// 7. Kiểm thử Pha Mở Đáp Án (phase === 'reveal') + Cơ chế Voice-Sync Hold (đợi MC nói dứt câu mới chuyển cảnh)
+// 7. Kiểm thử Pha Mở Đáp Án:
+// - Vòng 1 & 2 mở đáp án siêu tốc 4s, không hiện hộp giải thích dài dòng (explanation === undefined)
+// - Vòng 4 mở đáp án hiện hộp Phân Tích Thuần Việt & Hán Việt + Cơ chế Voice-Sync Hold
+engine.jumpToRound(0, now + 14_000);
+engine.tick(now + 14_000 + 19_000, false); // Hết giờ Vòng 1 -> reveal 4s
+const revealV1 = engine.getSnapshot(now + 33_100);
+assert.equal(revealV1.phase, 'reveal');
+assert.equal(revealV1.totalSeconds, 4, 'Vòng 1 mở đáp án nhanh 4 giây');
+assert.equal(revealV1.puzzle.explanation, undefined, 'Vòng 1 không hiện hộp giải thích dài dòng');
+
+engine.jumpToRound(3, now + 15_000);
+const ansR4AfterJump = engine.getSampleCorrectAnswer();
+engine.submitChat({ username: 'lan99', nickname: 'Lan Anh', comment: ansR4AfterJump, createTime: now + 15_200 }, now + 15_200);
 const holdRes = engine.tick(now + 15_000 + 26_000, true); // Hết giờ nhưng MC vẫn đang nói (holdForVoice = true)
 assert.equal(holdRes.phaseChanged, undefined, 'Khi MC đang nói dở (holdForVoice = true), chưa được cắt ngang chuyển cảnh');
 const releaseRes = engine.tick(now + 15_000 + 26_500, false); // MC vừa đọc dứt chữ cuối (holdForVoice = false) -> chuyển cảnh ngay
 assert.equal(releaseRes.phaseChanged, 'reveal');
 const revealSnap = engine.getSnapshot(now + 41_600);
 assert.equal(revealSnap.phase, 'reveal');
-assert.ok(revealSnap.puzzle.explanation, 'Pha reveal phải trả về lời giải thích ngữ nghĩa chuẩn');
+assert.ok(revealSnap.puzzle.explanation, 'Pha reveal ở Vòng 4 phải trả về lời phân tích Thuần Việt & Hán Việt');
 assert.ok(revealSnap.puzzle.revealedChoice === 1 || revealSnap.puzzle.revealedChoice === 2);
 
 // 8. Kiểm thử Đua điểm 3 miền & Quà tặng không cộng điểm
 assert.ok(revealSnap.regions.B > 0, 'Điểm đội Miền Bắc phải cộng dồn từ người chơi phe Bắc');
 assert.equal(revealSnap.leadingRegion, 'B');
 const scoreBeforeGift = revealSnap.leaderboard[0].score;
-engine.addGift({ nickname: 'Lan Anh', giftName: 'Pháo hoa vinh quy', diamondCount: 299, repeatCount: 1 }, now + 41_200);
-const afterGiftSnap = engine.getSnapshot(now + 41_300);
+engine.addGift({ nickname: 'Lan Anh', giftName: 'Pháo hoa vinh quy', diamondCount: 299, repeatCount: 1 }, now + 41_700);
+const afterGiftSnap = engine.getSnapshot(now + 41_800);
 assert.equal(afterGiftSnap.leaderboard[0].score, scoreBeforeGift, 'Quà tặng tuyệt đối không cộng điểm gian lận');
 assert.equal(afterGiftSnap.giftBanner?.big, true);
 
-// 9. Kiểm thử đổi thời gian đoán 4 vòng (thoiGianVong) & Thời gian mở đáp án đọc giải thích (thoiGianMoDapAn)
-assert.ok(revealSnap.totalSeconds >= 9, `Thời gian mở đáp án phải >= 9s để MC đọc hết giải thích (hiện tại: ${revealSnap.totalSeconds}s)`);
+// 9. Kiểm thử đổi thời gian đoán 4 vòng (thoiGianVong) & Thời gian mở đáp án Vòng 4 (thoiGianMoDapAn)
+assert.ok(revealSnap.totalSeconds >= 7, `Thời gian mở đáp án Vòng 4 phải >= 7s (hiện tại: ${revealSnap.totalSeconds}s)`);
 engine.setRevealSeconds(11);
 assert.equal(engine.getRevealSeconds(), 11);
-assert.ok(engine.getSnapshot(now + 41_300).totalSeconds >= 11, 'Khi chỉnh thời gian mở đáp án lên 11s phải áp dụng ngay');
+assert.ok(engine.getSnapshot(now + 41_800).totalSeconds >= 11, 'Khi chỉnh thời gian mở đáp án lên 11s phải áp dụng ngay');
 
 engine.setRoundSeconds([12, 14, 15, 18]);
 assert.deepEqual(engine.getRoundSeconds(), [12, 14, 15, 18]);

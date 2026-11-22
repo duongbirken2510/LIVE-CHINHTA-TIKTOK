@@ -210,11 +210,20 @@ export class ChinhTaEngine {
   }
 
   /**
-   * Tự động co giãn thời gian Mở Đáp Án theo độ dài lời giải thích từ điển & chiết tự Hán Việt
-   * để Học Giả MC luôn đọc trọn vẹn lời giải thích trước khi sang câu mới.
+   * Thời gian Mở Đáp Án tối ưu theo từng vòng:
+   * - Vòng 1 & Vòng 2: Mở đáp án siêu tốc 4 giây (không đọc giải thích dài dòng)
+   * - Vòng 3 (Bắt lỗi câu): Mở đáp án 4.5 giây (chỉ báo từ in đậm Đúng hay Sai và từ sửa đúng)
+   * - Vòng 4 (Thuần Việt & Hán Việt ×2): Đọc giải thích ngắn gọn trong 1 câu (~6.5s - 8s)
    */
   private computeRevealDurationMs(speechText: string): number {
-    return this.computeSpeechDurationMs(speechText, this.revealSeconds, 7_500);
+    const step = this.steps[this.stepIdx];
+    if (step && (step.kind === 'phu-am' || step.kind === 'dau-van')) {
+      return GAME.thoiGianMoDapAnVong123 * 1000;
+    }
+    if (step && step.kind === 'bat-loi-cau') {
+      return 4_500;
+    }
+    return this.computeSpeechDurationMs(speechText, this.revealSeconds, 4_000);
   }
 
   /** Trả về lời đọc Mở Đáp Án của câu hiện tại để hệ thống nạp trước (Prefetch) âm thanh AI từ lúc đang đếm ngược */
@@ -225,7 +234,26 @@ export class ChinhTaEngine {
     const [lbl1, lbl2] = step.choiceLabels;
     const winLbl = step.correctChoice === 1 ? lbl1 : lbl2;
     const winningOptionText = step.correctChoice === 1 ? step.option1 : step.option2;
-    return `Hết giờ! Đáp án đúng là phương án ${winLbl} (${winningOptionText}). ${q.explanation}`;
+
+    // Vòng 1 & Vòng 2: Chốt đáp án nhanh gọn 1 câu, không đọc giải nghĩa từ điển
+    if (step.kind === 'phu-am' || step.kind === 'dau-van') {
+      return `Hết giờ! Đáp án đúng là phương án ${winLbl}: «${winningOptionText}»!`;
+    }
+
+    // Vòng 3 (Bắt lỗi trong câu): Chỉ báo từ in đậm viết Đúng hay Sai (và từ sửa đúng nếu Sai)
+    if (step.kind === 'bat-loi-cau') {
+      if (step.correctChoice === 1) {
+        return `Hết giờ! Đáp án là số 1: Từ «${q.highlightWord}» đã viết ĐÚNG chính tả!`;
+      }
+      return `Hết giờ! Đáp án là số 2: Viết SAI! Phải viết là «${q.optionCorrect}»!`;
+    }
+
+    // Vòng 4 (Thuần Việt & Hán Việt ×2): Chỉ đọc 1 câu giải thích cốt lõi ngắn gọn
+    const afterBang = q.explanation.includes('!')
+      ? q.explanation.split('!').slice(1).join('!').trim()
+      : q.explanation.trim();
+    const shortSentence = afterBang.split(/\.\s+/)[0].replace(/\.+$/, '');
+    return `Hết giờ! Đáp án đúng là phương án ${winLbl}: «${winningOptionText}». ${shortSentence}.`;
   }
 
   private pickFresh<T extends { id: string }>(pool: T[], count: number): T[] {
@@ -773,7 +801,15 @@ export class ChinhTaEngine {
       revealedChoice: isRevealed ? step.correctChoice : undefined,
       revealedCorrectWord: isRevealed ? q.optionCorrect : undefined,
       revealedWrongWord: isRevealed ? q.optionWrong : undefined,
-      explanation: isRevealed ? q.explanation : undefined,
+      explanation: !isRevealed
+        ? undefined
+        : step.kind === 'han-viet'
+          ? q.explanation
+          : step.kind === 'bat-loi-cau'
+            ? step.correctChoice === 1
+              ? `✓ Từ «${q.highlightWord}» trong câu đã viết ĐÚNG chính tả!`
+              : `✗ Từ «${q.highlightWord}» viết SAI — Từ viết đúng phải là: «${q.optionCorrect}»!`
+            : undefined,
     };
 
     return {
