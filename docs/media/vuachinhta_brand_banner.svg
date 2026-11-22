@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1260" width="2400" height="1260">
+  <defs>
+    <radialGradient id="bgGrad" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#6b141a" />
+      <stop offset="50%" stop-color="#2b0910" />
+      <stop offset="100%" stop-color="#09040a" />
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="45%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="crimsonCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#991b1b" />
+      <stop offset="100%" stop-color="#450a0a" />
+    </linearGradient>
+    <linearGradient id="bluePill" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="amberPill" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+  </defs>
+
+  <rect width="2400" height="1260" fill="url(#bgGrad)" />
+
+  <!-- Họa tiết Trống Đồng mờ nền -->
+  <g transform="translate(1850, 620)" opacity="0.14">
+    <circle cx="0" cy="0" r="540" fill="none" stroke="#fbbf24" stroke-width="6" />
+    <circle cx="0" cy="0" r="460" fill="none" stroke="#fbbf24" stroke-width="4" stroke-dasharray="16 12" />
+    <circle cx="0" cy="0" r="360" fill="none" stroke="#fbbf24" stroke-width="5" />
+    <circle cx="0" cy="0" r="240" fill="none" stroke="#fbbf24" stroke-width="4" stroke-dasharray="12 10" />
+    <circle cx="0" cy="0" r="120" fill="#fbbf24" fill-opacity="0.3" stroke="#fef08a" stroke-width="5" />
+  </g>
+
+  <!-- Khung viền cung đình hoàng kim -->
+  <rect x="44" y="44" width="2312" height="1172" rx="44" fill="none" stroke="url(#goldGrad)" stroke-width="4" stroke-opacity="0.65" />
+  <rect x="64" y="64" width="2272" height="1132" rx="34" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-opacity="0.25" />
+
+  <!-- Biểu tượng 3D Squircle bên trái -->
+  <g transform="translate(140, 235)">
+    <rect x="0" y="0" width="510" height="510" rx="114" fill="url(#crimsonCard)" stroke="url(#goldGrad)" stroke-width="10" />
+    <rect x="26" y="26" width="458" height="458" rx="90" fill="none" stroke="#fde68a" stroke-width="2.5" stroke-opacity="0.45" />
+    <text x="255" y="185" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="112" font-weight="900" fill="url(#goldGrad)">👑</text>
+    <text x="255" y="300" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="74" font-weight="900" fill="#fef08a">CHỮ VIỆT</text>
+    <!-- 2 nút 1/2 & A/B đối kháng -->
+    <rect x="52" y="350" width="186" height="94" rx="24" fill="url(#bluePill)" stroke="#7dd3fc" stroke-width="4" />
+    <text x="145" y="412" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="42" font-weight="900" fill="#ffffff">[ 1 / A ]</text>
+    <rect x="272" y="350" width="186" height="94" rx="24" fill="url(#amberPill)" stroke="#fde68a" stroke-width="4" />
+    <text x="365" y="412" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="42" font-weight="900" fill="#0f172a">[ 2 / B ]</text>
+  </g>
+
+  <!-- Nội dung chính bên phải -->
+  <g transform="translate(720, 210)">
+    <rect x="0" y="0" width="820" height="62" rx="31" fill="#451a03" stroke="#fbbf24" stroke-width="2.5" />
+    <text x="410" y="41" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="25" font-weight="800" fill="#fde68a">
+      ✦ TIKTOK LIVE INTERACTIVE GAME SHOW · 1080 × 1920 (9:16) ✦
+    </text>
+
+    <text x="0" y="190" font-family="'Segoe UI', Arial, sans-serif" font-size="120" font-weight="900" fill="url(#goldGrad)">
+      VUA CHÍNH TẢ
+    </text>
+    <text x="0" y="275" font-family="'Segoe UI', Arial, sans-serif" font-size="46" font-weight="800" fill="#ffffff">
+      Đấu Trường Tiếng Việt 1/2 &amp; A/B · Luật Bút Sa Gà Chết
+    </text>
+    <text x="0" y="345" font-family="'Segoe UI', Arial, sans-serif" font-size="31" font-weight="600" fill="#fcd34d">
+      Kho 1.550 Câu Hỏi Chính Tả, Bắt Lỗi Câu &amp; Phân Tích Từ Thuần Việt – Hán Việt Tự Động 100%
+    </text>
+
+    <!-- 4 Feature Pills hàng 1 & 2 (rộng 755px mỗi pill, cỡ chữ 27px thoáng 2 đầu) -->
+    <g transform="translate(0, 405)">
+      <rect x="0" y="0" width="755" height="86" rx="22" fill="#1e293b" fill-opacity="0.9" stroke="#38bdf8" stroke-width="3" />
+      <text x="377" y="53" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="27" font-weight="800" fill="#e0f2fe">
+        ⚖️ Vòng 1 &amp; 3 Gõ [1]/[2] · Vòng 2 &amp; 4 Gõ [A]/[B]
+      </text>
+
+      <rect x="785" y="0" width="755" height="86" rx="22" fill="#1e293b" fill-opacity="0.9" stroke="#fbbf24" stroke-width="3" />
+      <text x="1162" y="53" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="27" font-weight="800" fill="#fef3c7">
+        📚 1.550 Câu Hỏi · Giải Thích Từ Điển &amp; Hán Việt
+      </text>
+
+      <rect x="0" y="112" width="755" height="86" rx="22" fill="#1e293b" fill-opacity="0.9" stroke="#34d399" stroke-width="3" />
+      <text x="377" y="165" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="27" font-weight="800" fill="#d1fae5">
+        ⏱️ Bù Trễ Sóng OBS 5s · Đồng Bộ Giọng MC AI
+      </text>
+
+      <rect x="785" y="112" width="755" height="86" rx="22" fill="#1e293b" fill-opacity="0.9" stroke="#c084fc" stroke-width="3" />
+      <text x="1162" y="165" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="27" font-weight="800" fill="#f3e8ff">
+        🏮 5 Tranh Nền Di Sản · Bộ Cài .EXE 1-Click
+      </text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <line x1="140" y1="1065" x2="2260" y2="1065" stroke="#fbbf24" stroke-width="2" stroke-opacity="0.35" />
+  <text x="1200" y="1130" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="34" font-weight="800" fill="#fde68a">
+    Designed &amp; Engineered by Duong Birken • https://duongbirken.deta.vn • LIVE-CHINHTA-TIKTOK (Port 4016)
+  </text>
+</svg>

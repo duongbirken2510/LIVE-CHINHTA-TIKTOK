@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 760" width="2400" height="760">
+  <defs>
+    <linearGradient id="ctaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b080c" />
+      <stop offset="50%" stop-color="#170b29" />
+      <stop offset="100%" stop-color="#071a1e" />
+    </linearGradient>
+    <linearGradient id="ctaGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+
+  <rect width="2400" height="760" rx="36" fill="url(#ctaBg)" />
+  <rect x="24" y="24" width="2352" height="712" rx="28" fill="none" stroke="url(#ctaGold)" stroke-width="4" stroke-opacity="0.75" />
+
+  <text x="1200" y="120" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="54" font-weight="900" fill="url(#ctaGold)">
+    👑 SẴN SÀNG LÊN SÓNG ĐẤU TRƯỜNG VUA CHÍNH TẢ TRÊN TIKTOK LIVE!
+  </text>
+  <text x="1200" y="178" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="30" font-weight="600" fill="#e2e8f0">
+    Khởi chạy 1-Click trên Windows · 1.550 Câu Hỏi Chính Tả &amp; Từ Hán Việt · Sân Khấu 9:16 Tự Động 100%
+  </text>
+
+  <!-- Card 1: Tải Bộ Cài .EXE -->
+  <g transform="translate(90, 235)">
+    <rect x="0" y="0" width="700" height="420" rx="30" fill="#0f172a" fill-opacity="0.9" stroke="#38bdf8" stroke-width="4" />
+    <text x="350" y="105" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="72">💿</text>
+    <text x="350" y="185" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="36" font-weight="900" fill="#38bdf8">
+      1. TẢI BỘ CÀI WINDOWS (.EXE)
+    </text>
+    <text x="350" y="245" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="25" font-weight="600" fill="#cbd5e1">
+      Tích hợp sẵn Node.js Runtime độc lập
+    </text>
+    <text x="350" y="285" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="25" font-weight="600" fill="#cbd5e1">
+      Tự tạo Shortcut Desktop &amp; Mở Port 4016
+    </text>
+    <rect x="55" y="325" width="590" height="64" rx="18" fill="#0284c7" />
+    <text x="350" y="366" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="900" fill="#ffffff">
+      Vua-Chinh-Ta-Setup-v1.0.exe
+    </text>
+  </g>
+
+  <!-- Card 2: Tặng 1 Star Trên GitHub -->
+  <g transform="translate(850, 235)">
+    <rect x="0" y="0" width="700" height="420" rx="30" fill="#0f172a" fill-opacity="0.9" stroke="#fbbf24" stroke-width="4" />
+    <text x="350" y="105" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="72">⭐</text>
+    <text x="350" y="185" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="36" font-weight="900" fill="#fbbf24">
+      2. TẶNG 1 STAR TRÊN GITHUB
+    </text>
+    <text x="350" y="245" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="25" font-weight="600" fill="#cbd5e1">
+      Ủng hộ mã nguồn mở &amp; nhận cập nhật
+    </text>
+    <text x="350" y="285" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="25" font-weight="600" fill="#cbd5e1">
+      kho câu hỏi Tiếng Việt mới nhất
+    </text>
+    <rect x="55" y="325" width="590" height="64" rx="18" fill="#d97706" />
+    <text x="350" y="366" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="900" fill="#0f172a">
+      ⭐ Star: LIVE-CHINHTA-TIKTOK
+    </text>
+  </g>
+
+  <!-- Card 3: Kết nối Tác giả Duong Birken -->
+  <g transform="translate(1610, 235)">
+    <rect x="0" y="0" width="700" height="420" rx="30" fill="#0f172a" fill-opacity="0.9" stroke="#34d399" stroke-width="4" />
+    <text x="350" y="105" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="72">🌐</text>
+    <text x="350" y="185" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="36" font-weight="900" fill="#34d399">
+      3. KẾT NỐI DUONG BIRKEN
+    </text>
+    <text x="350" y="245" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="25" font-weight="600" fill="#cbd5e1">
+      Khám phá hệ sinh thái ứng dụng AI
+    </text>
+    <text x="350" y="285" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="25" font-weight="600" fill="#cbd5e1">
+      &amp; Game Show TikTok LIVE tự động
+    </text>
+    <rect x="55" y="325" width="590" height="64" rx="18" fill="#059669" />
+    <text x="350" y="366" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="900" fill="#ffffff">
+      https://duongbirken.deta.vn
+    </text>
+  </g>
+</svg>
