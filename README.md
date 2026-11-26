@@ -1,17 +1,37 @@
-# 👑 Vua Chính Tả — Đấu Trường Tiếng Việt 1/2 & A/B (`LIVE-CHINHTA-TIKTOK`)
+# 👑 Vua Chính Tả — Đấu Trường Tiếng Việt 1/2 & A/B (`LIVE-CHINHTA-TIKTOK` v1.0.0)
 
 <div align="center">
   <img src="./docs/media/vuachinhta_brand_banner.png" alt="Vua Chính Tả Brand Banner" width="100%" />
   <br /><br />
   <h3>
     💿 👉 <a href="https://github.com/duongbirken2510/LIVE-CHINHTA-TIKTOK/releases/latest"><b>[TẢI NGAY BỘ CÀI ĐẶT WINDOWS 1-CLICK (.EXE)]</b></a> 👈
+    &nbsp;·&nbsp;
+    🎬 👉 <a href="./Record_2026-vua-chinh-ta.mp4"><b>[XEM VIDEO QUAY PHÒNG LIVE THỰC TẾ (.MP4)]</b></a> 👈
   </h3>
 </div>
 
-> **Game Show Đấu Trường Chính Tả & Từ Vựng Tiếng Việt Siêu Tốc 1 Chạm (`Vòng 1 & 3 Gõ 1/2 · Vòng 2 & 4 Gõ A/B — Luật Bút Sa Gà Chết`), Kho 1.550 Câu Hỏi Độc Nhất, Phân Tích Từ Thuần Việt & Hán Việt `×2` Tự Động 100% Cho TikTok LIVE (`1080 × 1920`)**  
+> **Game Show Đấu Trường Chính Tả & Từ Vựng Tiếng Việt Siêu Tốc 1 Chạm (`Vòng 1 & 3 Gõ 1/2 · Vòng 2 & 4 Gõ A/B — Luật Bút Sa Gà Chết`), Kho 1.550 Câu Hỏi Độc Nhất, Mở Đáp Án Siêu Tốc `4 Giây` & Phân Tích Từ Thuần Việt – Hán Việt `×2` Tự Động 100% Cho TikTok LIVE (`1080 × 1920`)**  
 > **Tác giả / Author:** **Duong Birken** — [https://duongbirken.deta.vn](https://duongbirken.deta.vn)  
 > **Kho mã nguồn chính thức / Official GitHub Repository:** [https://github.com/duongbirken2510/LIVE-CHINHTA-TIKTOK](https://github.com/duongbirken2510/LIVE-CHINHTA-TIKTOK)  
-> **Bộ cài đặt Windows 1-Click (`.EXE`):** [`release/Vua-Chinh-Ta-Setup-v1.0.exe`](./release/Vua-Chinh-Ta-Setup-v1.0.exe) · [`DOWNLOAD_APP.md`](./DOWNLOAD_APP.md)
+> **Bộ cài đặt Windows 1-Click (`.EXE`):** [`release/Vua-Chinh-Ta-Setup-v1.0.exe`](./release/Vua-Chinh-Ta-Setup-v1.0.exe) · [`DOWNLOAD_APP.md`](./DOWNLOAD_APP.md)  
+> **Video Demo Phòng LIVE Thực Tế (`1080 × 1920` · Có Âm Thanh):** [`Record_2026-vua-chinh-ta.mp4`](./Record_2026-vua-chinh-ta.mp4)
+
+---
+
+## 🎬 Video Quay Trực Tiếp Phiên Livestream Thực Tế (`Record_2026-vua-chinh-ta.mp4`)
+
+<div align="center">
+  <a href="./Record_2026-vua-chinh-ta.mp4">
+    <img src="./docs/media/vuachinhta_demo_preview.gif" alt="Video Demo Thực Tế Vua Chính Tả TikTok LIVE" width="360" />
+  </a>
+  <p>
+    <i>▶️ Bấm vào ảnh động GIF phía trên hoặc mở trực tiếp file <a href="./Record_2026-vua-chinh-ta.mp4"><b><code>Record_2026-vua-chinh-ta.mp4</code></b></a> để xem video quay thực tế phiên đấu trường Vua Chính Tả (1080×1920 · 30fps · Âm thanh Học Giả MC AI + Nhạc nền ngũ cung).</i>
+  </p>
+</div>
+
+| 🟢 Đang Đếm Ngược Trên Sóng LIVE Thực Tế | 🏆 Mở Đáp Án Siêu Tốc `4 Giây` | 🔥 Cuộc Đua Chuỗi Thắng `+100đ` Trên Bảng Vàng |
+| :---: | :---: | :---: |
+| ![Phòng Live Thực Tế 1](./docs/screenshots/06-live-video-frame1.png) | ![Mở Đáp Án Thực Tế](./docs/screenshots/08-live-video-reveal.png) | ![Phòng Live Thực Tế 2](./docs/screenshots/09-live-video-frame3.png) |
 
 ---
 
@@ -20,8 +40,9 @@
 | Tài liệu | Đường dẫn | Nội dung chính |
 | :--- | :--- | :--- |
 | 💿 **Tải Bộ Cài Đặt Windows 1-Click (`.EXE`)** | [**`DOWNLOAD_APP.md`**](./DOWNLOAD_APP.md) | Hướng dẫn cài đặt `Vua-Chinh-Ta-Setup-v1.0.exe` (tích hợp sẵn Node.js Runtime độc lập, tự tạo biểu tượng Desktop) và `Vua-Chinh-Ta.exe`. |
-| 👑 **Hồ Sơ Giới Thiệu Sản Phẩm & Công Nghệ (10 Chương)** | [**`info/Introduce_VuaChinhTa.md`**](./info/Introduce_VuaChinhTa.md) | Định nghĩa sản phẩm, cơ chế `1/2` & `A/B` theo vòng, luật Bút Sa Gà Chết (`lockedChoices`), miễn trừ 5s trễ OBS, đồng bộ giọng MC `Voice-Sync Hold` và kiến trúc kỹ thuật. |
-| 📖 **Cẩm Nang Hướng Dẫn Sử Dụng Toàn Tập (A–Z · VI/EN)** | [**`docs/USER_GUIDE.md`**](./docs/USER_GUIDE.md) | Hướng dẫn song ngữ VI/EN kèm ảnh chụp màn hình thực tế: cài đặt `.exe` / `.bat`, nhúng Browser Source `1080 × 1920` vào TikTok LIVE Studio, chỉnh thời gian 4 vòng & thời gian mở đáp án. |
+| 👑 **Hồ Sơ Giới Thiệu Sản Phẩm & Công Nghệ (10 Chương)** | [**`info/Introduce_VuaChinhTa.md`**](./info/Introduce_VuaChinhTa.md) | Định nghĩa sản phẩm, cơ chế `1/2` & `A/B` theo vòng, luật Bút Sa Gà Chết (`lockedChoices`), miễn trừ 5s trễ OBS, mở đáp án siêu tốc `4s`, đồng bộ giọng MC `Voice-Sync Hold`, video thực tế và kiến trúc kỹ thuật. |
+| 📖 **Cẩm Nang Hướng Dẫn Sử Dụng Toàn Tập (A–Z · VI/EN)** | [**`docs/USER_GUIDE.md`**](./docs/USER_GUIDE.md) | Hướng dẫn song ngữ VI/EN từ A–Z kèm video `Record_2026-vua-chinh-ta.mp4` & ảnh chụp màn hình thực tế: cài đặt `.exe` / `.bat`, nhúng Browser Source `1080 × 1920` vào TikTok LIVE Studio, chỉnh thời gian 4 vòng và bàn trộn âm thanh 3 kênh. |
+| 🎬 **Video Bản Ghi Phòng LIVE Thực Tế (`.MP4`)** | [**`Record_2026-vua-chinh-ta.mp4`**](./Record_2026-vua-chinh-ta.mp4) | Video quay trực tiếp phiên LIVE thực tế (`1080 × 1920`, `35 giây`, đầy đủ giọng đọc Học Giả MC AI & khán giả TikTok bình luận đua Top). |
 
 ---
 
@@ -42,7 +63,7 @@ npm run build  # Đóng gói giao diện Production (dist/)
 
 ---
 
-## 📸 Hình Ảnh Giao Diện Thực Tế (`Admin Dashboard` & `Sân Khấu 9:16`)
+## 📸 Hình Ảnh Giao Diện Quản Trị & 4 Vòng Thi Di Sản Văn Hóa (`1080 × 1920`)
 
 ### 1. Trang Quản Trị Admin (`http://localhost:4016`)
 ![Trang Quản Trị Admin Vua Chính Tả](./docs/screenshots/01-admin-dashboard.png)
@@ -66,12 +87,10 @@ npm run build  # Đóng gói giao diện Production (dist/)
    - Trong mỗi câu hỏi, hệ thống **chỉ ghi nhận lựa chọn ĐẦU TIÊN** của mỗi người chơi (`lockedChoices: Map<playerId, 1 | 2>`).
    - Chọn **ĐÚNG** ngay lần đầu: Cộng điểm tốc độ (kèm **miễn trừ 5 giây đầu câu bù độ trễ OBS** để người xem trên điện thoại vẫn đạt 100% điểm tối đa) + thưởng nóng **`+100đ`** mỗi khi đạt chuỗi 3 câu đúng liên tiếp.
    - Chọn **SAI** ở lần đầu: Cắt chuỗi thắng (`streak = 0`) và **khóa luôn câu đó** (`kind: 'locked_wrong'` nếu quay xe gõ lại phương án kia).
-3. **Sân Khấu 9:16 Tinh Gọn Cỡ Chữ Lớn (`42px – 52px`) & Thẻ Phương Án 1 Hàng Duy Nhất:**
-   - Khung Cuốn Thư Đề Bài màu vàng hiển thị nổi bật ở chính giữa màn hình với cỡ chữ **`38px – 44px`** giúp người lướt TikTok trên điện thoại đọc rõ ngay trong 0.5 giây.
-   - Hai thẻ phương án ép **1 hàng duy nhất (`whitespace-nowrap`)** kèm thống kê số người & tỷ lệ `%` bình chọn thời gian thực ngay góc trên mỗi thẻ.
-4. **Hộp Giải Thích Từ Điển & Đồng Bộ Giọng Đọc `Voice-Sync Hold`:**
-   - Khi hết giờ (`phase === 'reveal'`, `9s – 16.5s` tự co giãn theo độ dài câu và số dấu câu), hộp **`📖 GIẢI THÍCH NGỮ NGHĨA / PHÂN TÍCH THUẦN VIỆT & HÁN VIỆT`** bật sáng và Học Giả MC đọc trọn vẹn lời giải thích.
-   - Cơ chế **`Voice-Sync Hold`** đảm bảo hệ thống luôn đợi MC đọc dứt chữ cuối cùng (+`0.45s` nghỉ lấy hơi) rồi mới chuyển sang cảnh tiếp theo, không bao giờ cắt ngang lời MC.
+3. **Mở Đáp Án Siêu Tốc `4 Giây` Đồng Bộ Cả 4 Vòng & 16 Lời Khen Xoay Vòng:**
+   - Khi hết giờ (`phase === 'reveal'`, **4 giây** nhanh gọn, dứt khoát): Thẻ đúng bật sáng màu Xanh Lục Bảo, Học Giả MC đọc chốt ngay phương án đúng mà không giảng nghĩa từ điển lê thê, giữ nhịp phòng LIVE luôn dồn dập.
+   - Riêng Vòng 3 và Vòng 4 hiển thị thêm **1 thanh ngang 1 dòng** bên dưới 2 thẻ để báo từ viết đúng hoặc đối chiếu nhanh *Từ Thuần Việt · Từ Hán Việt*.
+   - Bộ **16 mẫu lời khen xoay vòng** (*"Xuất sắc!"*, *"Chuẩn xác tuyệt đối!"*, *"Mở hàng hồng phát!"*, *"Kiến thức uyên bác!"*, *"Nhãn quan sắc bén!"*...) cùng cơ chế **`Voice-Sync Hold` + Atomic WAV Header Patching** giúp giọng đọc Học Giả MC luôn mượt mà, tự nhiên và không bao giờ bị ngắt câu giữa chừng.
 
 ---
 
@@ -79,10 +98,10 @@ npm run build  # Đóng gói giao diện Production (dist/)
 
 | Vòng thi | Kho câu hỏi | Ký hiệu bình luận | Bối cảnh Di sản Văn hóa (`StageBackgroundArtwork`) | Nội dung thử thách & Điểm số |
 | :--- | :---: | :---: | :--- | :--- |
-| **Vòng 1**<br>*Phụ Âm Đầu Dễ Nhầm* | **420 câu** | **`[ 1 ]` hoặc `[ 2 ]`** | 🥁 **Trống Đồng Đông Sơn & Chim Lạc Âu Lạc** | Phân biệt `S/X`, `Ch/Tr`, `D/Gi/R`, `L/N`, `G/Gh`, `Ng/Ngh`, `V/D` (`50đ – 120đ`). |
-| **Vòng 2**<br>*Dấu Hỏi/Ngã & Vần Cuối* | **450 câu** | **`[ A ]` hoặc `[ B ]`** | 🌕 **Đêm Rằm Chị Hằng, Thỏ Ngọc, Cây Đa & Hồ Sen** | Phân biệt `?/~`, `c/t`, `n/ng`, `i/y`, `ao/au`, `ai/ay`, `iu/iêu`, `uôn/uân` (`60đ – 140đ`). |
-| **Vòng 3**<br>*Bắt Lỗi Trong Câu* | **360 câu** | **`[ 1 ]` hoặc `[ 2 ]`** | 🏛️ **Khuê Văn Các · Văn Miếu Quốc Tử Giám** | Đọc từ khóa in đậm trong câu văn: Gõ **`1` (`ĐÚNG CHÍNH TẢ`)** hoặc **`2` (`SAI CHÍNH TẢ`)** (`70đ – 160đ`). |
-| **Vòng 4**<br>*Thuần Việt & Hán Việt ×2* | **320 câu** | **`[ A ]` hoặc `[ B ]`** | 🏯 **Ngọ Môn Quan · Kinh Thành Huế & Lầu Ngũ Phụng** | `160 câu Dạng 4A` (Phân tích từ in đậm trong câu là **TỪ THUẦN VIỆT** hay **TỪ HÁN VIỆT**) + `160 câu Dạng 4B` (Đối chiếu 2 từ đồng nghĩa tìm từ Thuần Việt / Hán Việt) (`160đ – 320đ`). |
+| **Vòng 1**<br>*Phụ Âm Đầu Dễ Nhầm* | **420 câu** | **`[ 1 ]` hoặc `[ 2 ]`** | 🥁 **Trống Đồng Đông Sơn & Chim Lạc Âu Lạc** | Phân biệt `S/X`, `Ch/Tr`, `D/Gi/R`, `L/N`, `G/Gh`, `Ng/Ngh`, `V/D` (`50đ – 120đ` · Mở ĐA `4s`). |
+| **Vòng 2**<br>*Dấu Hỏi/Ngã & Vần Cuối* | **450 câu** | **`[ A ]` hoặc `[ B ]`** | 🌕 **Đêm Rằm Chị Hằng, Thỏ Ngọc, Cây Đa & Hồ Sen** | Phân biệt `?/~`, `c/t`, `n/ng`, `i/y`, `ao/au`, `ai/ay`, `iu/iêu`, `uôn/uân` (`60đ – 140đ` · Mở ĐA `4s`). |
+| **Vòng 3**<br>*Bắt Lỗi Trong Câu* | **360 câu** | **`[ 1 ]` hoặc `[ 2 ]`** | 🏛️ **Khuê Văn Các · Văn Miếu Quốc Tử Giám** | Đọc từ khóa in đậm trong câu văn: Gõ **`1` (`ĐÚNG CHÍNH TẢ`)** hoặc **`2` (`SAI CHÍNH TẢ`)** (`70đ – 160đ` · Mở ĐA `4.5s`). |
+| **Vòng 4**<br>*Thuần Việt & Hán Việt ×2* | **320 câu** | **`[ A ]` hoặc `[ B ]`** | 🏯 **Ngọ Môn Quan · Kinh Thành Huế & Lầu Ngũ Phụng** | `160 câu Dạng 4A` (Phân tích từ in đậm trong câu là **TỪ THUẦN VIỆT** hay **TỪ HÁN VIỆT**) + `160 câu Dạng 4B` (Đối chiếu 2 từ đồng nghĩa tìm từ Thuần Việt / Hán Việt) (`160đ – 320đ` · Mở ĐA `4s`). |
 | **Chuyển Vòng & Đăng Quang** | — | — | 👑 **Điện Thái Hòa · Vinh Quy Bái Tổ** | Tổng kết chặng, giới thiệu luật vòng mới, vinh danh Tam Tài và lưu Bảng Vàng Tuần. |
 
 ---
@@ -116,3 +135,4 @@ npm run build  # Đóng gói giao diện Production (dist/)
 - **📦 Kho mã nguồn dự án:** [**https://github.com/duongbirken2510/LIVE-CHINHTA-TIKTOK**](https://github.com/duongbirken2510/LIVE-CHINHTA-TIKTOK)
 - **👑 Hồ sơ Giới thiệu Sản phẩm & Công nghệ 10 Chương (`info/`):** [**info/Introduce_VuaChinhTa.md**](./info/Introduce_VuaChinhTa.md)
 - **📖 Cẩm nang Hướng dẫn Sử dụng A–Z (`docs/USER_GUIDE.md`):** [**docs/USER_GUIDE.md**](./docs/USER_GUIDE.md)
+- **🎬 Video Quay Trực Tiếp Phiên LIVE (`Record_2026-vua-chinh-ta.mp4`):** [**Record_2026-vua-chinh-ta.mp4**](./Record_2026-vua-chinh-ta.mp4)
